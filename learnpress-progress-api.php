@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name:  LearnPress Progress Api
+Plugin Name:  My LearnPress Progress Api
 Plugin URI:   https://www.tabtech.com 
-Description:  LearnPress User Progress Rest api. 
+Description:  My LearnPress User Progress Rest api. 
 Version:      1.0
 Author:       Tabtech
 Author URI:   https://www.tabtech.com
-Text Domain:  learnpress-progress-api
+Text Domain:  my-lp-progress-api
 Domain Path:  /languages
 */
 
@@ -27,8 +27,14 @@ function get_users_progress($data)
 }
 
 add_action('rest_api_init', function () {
-  register_rest_route('my-lpa/v1', '/user-progress/(?P<email>\d+)', array(
+  register_rest_route('my-lpa/v1', '/user-progress', array(
     'methods' => 'GET',
-    'callback' => 'get_users_progress'
+    'callback' => 'get_users_progress',
+    'args' => array(
+      'email' => array(
+        'required' => true,
+        'validate_callback' => 'is_email'
+      )
+    )
   ));
 });
